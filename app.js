@@ -3,10 +3,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 
-// Créez une application Express
+
 const app = express();
 
-// Configurer la connexion à la base de données MySQL
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
     database: 'malick',
 });
 
-// Connectez-vous à la base de données
+
 connection.connect((err) => {
     if (err) {
         console.error('Erreur de connexion à la base de données :', err);
@@ -23,7 +23,7 @@ connection.connect((err) => {
     console.log('Connecté à la base de données MySQL.');
 });
 
-// Middleware pour analyser les corps de requête HTTP
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -33,7 +33,7 @@ app.get('/dayfinder', (req, res) => {
     const formattedDate = formatDate(date);
     const dayOfWeek = getDayOfWeek(formattedDate);
 
-    // Enregistrez l'historique dans la base de données
+    
     saveSearchHistory(formattedDate, dayOfWeek);
 
     const response = {
@@ -43,7 +43,7 @@ app.get('/dayfinder', (req, res) => {
     res.json(response);
 });
 
-// Route pour l'historique des recherches
+
 app.get('/dayfinder/historique', (req, res) => {
     // Récupérez l'historique depuis la base de données
     getSearchHistory((err, results) => {
@@ -56,7 +56,7 @@ app.get('/dayfinder/historique', (req, res) => {
     });
 });
 
-// Fonction utilitaire pour formater la date au format jj/mm/aaaa
+
 function formatDate(date) {
     const [day, month, year] = date.split('-');
     return `${day}/${month}/${year}`;
